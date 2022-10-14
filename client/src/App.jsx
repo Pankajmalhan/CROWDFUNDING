@@ -7,19 +7,19 @@ import "./App.css";
 
 function App() {
   return (
-    <EthProvider>
+    // <EthProvider>
       <div id="App" >
         <div className="container">
           <Intro />
           <hr />
           <Setup />
           <hr />
-          <Demo />
+          {/* <Demo /> */}
           <hr />
           <Footer />
         </div>
       </div>
-    </EthProvider>
+    // </EthProvider>
   );
 }
 
