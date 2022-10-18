@@ -1,6 +1,5 @@
 //SPDX-License-Identifier: MIT
 
-
 /*
 1. Add validation for create project for each field
 2. Create a event for each error
@@ -12,17 +11,17 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Project.sol";
-import {LibraryEvents} from "./Utils.sol";
+import {LibraryEvents, LibraryErrors} from "./Utils.sol";
 /**
  * @title ProjectManagerContract
  * @author Shivam Arora
  * @dev Project Management Contract allows users to create projects and manage them
  */
 
- struct ProjectObj{
+struct ProjectEntity {
     uint16 projectId;
     address projectAddress;
- }
+}
 
 contract ProjectFactory {
     //Library
@@ -32,15 +31,27 @@ contract ProjectFactory {
     Counters.Counter private _contractId;
 
     //ProjectID to ContractAddress
-    ProjectObj[] idToContractAddress;
+    mapping(uint256 => address) projectIdToAddress;
+
+    // Array to store all projects
+    ProjectEntity[] private projects;
 
     function createNewProject(
         string memory _title,
         string memory _description,
-        uint256 _project_target_price,
-        uint256 _projest_deadline_date_unix,
-        uint256 _project_minimum_fund_price
+        uint32 _project_target_price,
+        uint32 _projest_deadline_date_unix,
+        uint32 _project_minimum_fund_price
     ) public {
+        // LibraryErrors.checkForMinumumFund(_project_target_price,_project_minimum_fund_price);
+        require(
+            _project_target_price > _project_minimum_fund_price,
+            "Target price should not be less than minimum fund price"
+        );
+        require(
+            block.timestamp > _projest_deadline_date_unix,
+            "Deadline is already passed"
+        );
 
         uint16 projectID = uint16(_contractId.current());
         Project project = new Project(
@@ -53,28 +64,42 @@ contract ProjectFactory {
             msg.sender
         );
 
-        idToContractAddress.push(ProjectObj(projectID,address(project)));
+        projectIdToAddress[projectID] = address(project);
+        projects.push(ProjectEntity(projectID, address(project)));
         _contractId.increment();
 
-        // emit event for project creation 
-        emit LibraryEvents.ProjectStarted(projectID,
+        // emit event for project creation
+        emit LibraryEvents.ProjectStarted(
+            projectID,
             _title,
             _description,
             _project_target_price,
             _projest_deadline_date_unix,
             _project_minimum_fund_price,
-            msg.sender);
+            msg.sender
+        );
     }
 
-    function getProjectLists() public view returns (ProjectObj[] memory){
-        return idToContractAddress;
+    function getProjectLists() public view returns (ProjectEntity[] memory) {
+        return projects;
     }
 
-    // function getProjectInfoById(uint16 projectId) view returns(Project memory){
+    function getProjectInfoById(uint16 _projectId)
+        public
+        view
+        returns (string memory _title, string memory _description)
+    {
+        address payable projectAddress = payable(
+            projectIdToAddress[_projectId]
+        );
+        return Project(projectAddress).getProjectDetails();
+    }
 
-    // }
-
-    // function getProjectInfoByAddress(address _address) view returns(Project memory){
-        
-    // }
+    function getProjectInfoByAddress(address _address)
+        public
+        view
+        returns (string memory _title, string memory _description)
+    {
+        return Project(payable(_address)).getProjectDetails();
+    }
 }

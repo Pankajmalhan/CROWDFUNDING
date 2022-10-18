@@ -16,11 +16,10 @@ error NotFundingComplete();
  * @dev Project Management Contract allows users to create projects and manage them
  */
 
-
- struct FundRaiser{
+struct FundRaiser {
     address addressId;
     uint16 amount;
- } 
+}
 
 contract Project is Ownable {
     //State
@@ -32,15 +31,15 @@ contract Project is Ownable {
     // Project variables
     uint16 public projectID;
     uint32 public target_price;
-    uint256 public deadline_date_unix;
-    uint256 public minimum_fund_price_in_eth;
+    uint32 public deadline_date_unix;
+    uint32 public minimum_fund_price_in_eth;
+    uint32 public totalFundingAmount;
     string public title;
     string public description;
     address public projectOwner;
     State public projectState;
 
     //ProjectId to Total Funding Amount
-    uint256 public totalFundingAmount;
 
     //Array to store all the funders
     FundRaiser[] public project_funders;
@@ -50,19 +49,19 @@ contract Project is Ownable {
         uint16 _projectID,
         string memory _title,
         string memory _description,
-        uint256 _project_target_price,
-        uint256 _projest_deadline_date_unix,
-        uint256 _project_minimum_fund_price,
+        uint32 _project_target_price,
+        uint32 _projest_deadline_date_unix,
+        uint32 _project_minimum_fund_price,
         address _projectOwner
     ) {
-        projectID=_projectID;
-        target_price=_project_target_price;
-        deadline_date_unix=_projest_deadline_date_unix;
-        minimum_fund_price_in_eth=_project_minimum_fund_price;
-        title=_title;
-        description=_description;
-        projectState=State.AWAITING_FUNDING;
-        projectOwner=_projectOwner;
+        projectID = _projectID;
+        target_price = _project_target_price;
+        deadline_date_unix = _projest_deadline_date_unix;
+        minimum_fund_price_in_eth = _project_minimum_fund_price;
+        title = _title;
+        description = _description;
+        projectState = State.AWAITING_FUNDING;
+        projectOwner = _projectOwner;
     }
 
     //Functions
@@ -116,12 +115,12 @@ contract Project is Ownable {
         fund(0);
     }
 
-    // //View Functions
-    // function getProject(uint256 _projectID)
-    //     public
-    //     view
-    //     returns (string memory)
-    // {
-    //     return idToProject[_projectID].title;
-    // }
+    // View Functions
+    function getProjectDetails()
+        public
+        view
+        returns (string memory _title, string memory _description)
+    {
+        return (title, description);
+    }
 }
