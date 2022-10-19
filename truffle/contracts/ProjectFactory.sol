@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./ProjectDAO.sol";
@@ -29,6 +29,11 @@ contract ProjectFactory {
 
     // Array to store all projects
     ProjectEntity[] private projects;
+
+    //initialise counter
+    function initialiseCounter() public {
+        _contractId.initialise();
+    }
 
     function createNewProject(
         string memory _title,
