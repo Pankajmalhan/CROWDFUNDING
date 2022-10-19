@@ -44,14 +44,32 @@ contract ProjectFactory {
         uint32 _project_minimum_fund_price
     ) public {
         // LibraryErrors.checkForMinumumFund(_project_target_price,_project_minimum_fund_price);
-        require(
-            _project_target_price > _project_minimum_fund_price,
-            "Target price should not be less than minimum fund price"
-        );
-        require(
-            block.timestamp > _projest_deadline_date_unix,
-            "Deadline is already passed"
-        );
+        
+        //validations
+        bool titleCheck=LibraryErrors.checkTitle(_title);
+        if(titleCheck == false){
+            revert('The title should be less than 50 characters without any special symbols');
+        }
+
+        bool descCheck=LibraryErrors.checkDes(_description);
+        if(descCheck == false){
+            revert('The description should be less than 100 characters');
+        }
+
+        bool targetCheck=LibraryErrors.checkTarget(_project_target_price);
+        if(targetCheck == false){
+            revert('The target should be greater than 0');
+        }
+
+         bool deadlineCheck=LibraryErrors.checkDeadline(_projest_deadline_date_unix);
+        if(deadlineCheck == false){
+            revert('The deadline has already passed');
+        }
+
+         bool contributionCheck=LibraryErrors.checkMin_MaxContribution(_project_target_price, _project_minimum_fund_price);
+        if(contributionCheck == false){
+            revert('The amount is less than minimum contribution');
+        }
 
         uint16 projectID = uint16(_contractId.current());
         Project project = new Project(
