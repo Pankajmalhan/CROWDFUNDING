@@ -42,7 +42,7 @@ contract('ProjectFactory', () => {
         const _desc = 'This is my project Desc';
         const _project_target_price = 12000;
         const _projest_deadline_date_unix = 12000;
-        const _project_minimum_fund_price = 22000;
+        const _project_minimum_fund_price = 2000;
 
         var value = await simpleStorageInstance.createNewProject(
             _projectTitle,
