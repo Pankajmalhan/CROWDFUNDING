@@ -59,7 +59,7 @@ contract Project is Ownable {
         if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
             revert NeedToSetHigherTarget();
         }
-        if(_project_deadline_date_unix<=block.timestamp){
+        if(_project_deadline_date_unix <= block.timestamp){
             revert InvalidTimeInput();
         }
         if(s_title.strlen()<=MINIMUM_CHAR_LEN || s_title.strlen()>=MAX_CHAR_LEN){

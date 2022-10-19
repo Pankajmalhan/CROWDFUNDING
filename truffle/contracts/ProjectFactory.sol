@@ -27,9 +27,6 @@ contract ProjectFactory {
     //State
     Counters.Counter private _contractId;
 
-    //ProjectID to ContractAddress
-    mapping(uint256 => address) projectIdToAddress;
-
     // Array to store all projects
     ProjectEntity[] private projects;
 
@@ -51,7 +48,6 @@ contract ProjectFactory {
             msg.sender
         );
 
-        projectIdToAddress[projectID] = address(project);
         projects.push(ProjectEntity(projectID, address(project)));
         _contractId.increment();
 
@@ -70,8 +66,12 @@ contract ProjectFactory {
     }
 
     function getProjectInfoById(uint16 _projectId) public view returns (string memory _title, string memory _description) {
-        address payable projectAddress = payable(projectIdToAddress[_projectId]);
-        return Project(projectAddress).getProjectDetails();
+        for(uint i=0; i<projects.length;i++){
+            if(projects[i].projectId == _projectId){
+                address payable projectAddress = payable(projects[i].projectAddress);
+                return Project(projectAddress).getProjectDetails();
+            }
+        }
     }
 
     function getProjectInfoByAddress(address _address) public view returns (string memory _title, string memory _description) {
