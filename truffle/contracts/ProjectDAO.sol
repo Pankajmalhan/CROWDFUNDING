@@ -2,13 +2,12 @@
 
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Utils.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-error SpendMoreEth();
-error NotProjectOwner();
-error NotInAwaitingFunding();
-error NotFundingComplete();
+error NeedToSetHigherTarget();
+error InvalidTimeInput();
+error InvalidCharLen();
 
 /**
  * @title ProjectManagerContract
@@ -16,52 +15,69 @@ error NotFundingComplete();
  * @dev Project Management Contract allows users to create projects and manage them
  */
 
-struct FundRaiser {
-    address addressId;
-    uint16 amount;
-}
-
 contract Project is Ownable {
+    //Library
+    using HelperFunctions for string;
+
     //State
     enum State {
         AWAITING_FUNDING,
         FUNDING_COMLPETE
     }
 
+    // Validation Constants
+    uint256 private constant MINUMUM_TARGET_AMOUNT = 10 ether;
+    uint256 private constant MINIMUM_FUND_RAISE_AMOUNT = 1 ether;
+    uint256 private constant MINIMUM_CHAR_LEN = 10;
+    uint256 private constant MAX_CHAR_LEN = 50;
+
     // Project variables
-    uint16 public projectID;
-    uint32 public target_price;
-    uint32 public deadline_date_unix;
-    uint32 public minimum_fund_price_in_eth;
-    uint32 public totalFundingAmount;
-    string public title;
-    string public description;
-    address public projectOwner;
-    State public projectState;
+    uint16 public immutable i_projectID;
+    uint256 public immutable i_target_price;
+    uint256 public immutable i_deadline_date_unix;
+    uint256 public immutable i_minimum_fund_price_in_eth;
+    string public s_title;
+    string public s_description;
+    address public immutable i_projectOwner;
+    uint256 public s_totalFundingAmount;
+    State public s_projectState;
 
-    //ProjectId to Total Funding Amount
-
-    //Array to store all the funders
-    FundRaiser[] public project_funders;
+    //Store information about amount a fund raiser has raised
+    mapping(address => int256) addressToAmount;
 
     //Constructor
     constructor(
         uint16 _projectID,
         string memory _title,
         string memory _description,
-        uint32 _project_target_price,
-        uint32 _projest_deadline_date_unix,
-        uint32 _project_minimum_fund_price,
+        uint256 _project_target_price,
+        uint256 _project_deadline_date_unix,
+        uint256 _project_minimum_fund_price,
         address _projectOwner
     ) {
-        projectID = _projectID;
-        target_price = _project_target_price;
-        deadline_date_unix = _projest_deadline_date_unix;
-        minimum_fund_price_in_eth = _project_minimum_fund_price;
-        title = _title;
-        description = _description;
-        projectState = State.AWAITING_FUNDING;
-        projectOwner = _projectOwner;
+        //Validate
+        if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
+            revert NeedToSetHigherTarget();
+        }
+        if(_project_deadline_date_unix <= block.timestamp){
+            revert InvalidTimeInput();
+        }
+        if(s_title.strlen()<=MINIMUM_CHAR_LEN || s_title.strlen()>=MAX_CHAR_LEN){
+            revert InvalidCharLen();
+        }
+        if(s_description.strlen()<=MINIMUM_CHAR_LEN || s_description.strlen()>=MAX_CHAR_LEN){
+            revert InvalidCharLen();
+        }
+        
+
+        i_projectID = _projectID;
+        i_target_price = _project_target_price;
+        i_deadline_date_unix = _project_deadline_date_unix;
+        i_minimum_fund_price_in_eth = _project_minimum_fund_price;
+        s_title = _title;
+        s_description = _description;
+        s_projectState = State.AWAITING_FUNDING;
+        i_projectOwner = _projectOwner;
     }
 
     //Functions
@@ -78,11 +94,11 @@ contract Project is Ownable {
         // projectIdToTotalFundingAmount[_projectID] += msg.value;
     }
 
-    function markFundingComplete(uint256 _projectID) public onlyOwner {
+    function markFundingComplete() public onlyOwner {
         // stateHistory[_projectID] = State.FUNDING_COMLPETE;
     }
 
-    function withdraw(uint256 _projectID) public payable {
+    function withdraw() public payable {
         // if (_projectID != addressToProjectID[msg.sender]) {
         //     revert NotProjectOwner();
         // }
@@ -108,11 +124,11 @@ contract Project is Ownable {
 
     //if someone sends this contract ETH without calling the fund function
     fallback() external payable {
-        fund(0);
+        // fund(0);
     }
 
     receive() external payable {
-        fund(0);
+        // fund(0);
     }
 
     // View Functions
