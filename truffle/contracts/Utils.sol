@@ -41,7 +41,7 @@ library LibraryErrors {
 
     function checkDes(string memory str) internal pure returns(bool){
         bytes memory b = bytes(str);
-        if(b.length > 10) return false;
+        if(b.length > 100) return false;
         else return true;
     }
 
