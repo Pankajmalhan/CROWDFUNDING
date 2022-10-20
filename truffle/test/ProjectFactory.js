@@ -61,7 +61,7 @@ contract('ProjectFactory', () => {
 
         tx = await projectFactory.getProjectLists()
 
-        assert.equal(tx.length, 2, "Project is successfully created with shorter length");
+        assert.equal(tx.length, 1, "Project is successfully created with shorter length");
     });
 });
 
