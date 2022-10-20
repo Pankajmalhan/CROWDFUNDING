@@ -44,8 +44,11 @@ contract('ProjectFactory', () => {
             assert(error.message.startsWith(PREFIX), "Reverts when validation logic is not met");
         }
 
-        title = "This is short"
-        desc = "This is short"
+        const _projectTitle = 'Title';
+        const _desc = 'This is my project Desc';
+        const _project_target_price = 12000;
+        const _projest_deadline_date_unix = 12000;
+        const _project_minimum_fund_price = 2000;
 
         try {
             tx = await projectFactory.createNewProject(title, desc, target, deadline, min_fund, {
