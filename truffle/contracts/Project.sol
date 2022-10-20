@@ -137,6 +137,6 @@ contract Project is Ownable {
         view
         returns (string memory _title, string memory _description)
     {
-        return (title, description);
+        return (s_title, s_description);
     }
 }
