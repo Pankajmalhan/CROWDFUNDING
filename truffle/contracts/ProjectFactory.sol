@@ -30,6 +30,7 @@ contract ProjectFactory {
     // Array to store all projects
     ProjectEntity[] private projects;
 
+    //Functions
     function createNewProject(
         string memory _title,
         string memory _description,
@@ -61,6 +62,8 @@ contract ProjectFactory {
             msg.sender);
     }
 
+
+    //View Functions
     function getProjectLists() public view returns (ProjectEntity[] memory){
         return projects;
     }
@@ -76,5 +79,10 @@ contract ProjectFactory {
 
     function getProjectInfoByAddress(address _address) public view returns (string memory _title, string memory _description) {
         return Project(payable(_address)).getProjectDetails();
+    }
+
+    function getCurrentProjectID() public view returns (uint16) {
+        uint16 id = uint16(_contractId.current());
+        return id;
     }
 }

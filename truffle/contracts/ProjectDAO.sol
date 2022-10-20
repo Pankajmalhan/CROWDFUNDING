@@ -59,13 +59,13 @@ contract Project is Ownable {
         if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
             revert NeedToSetHigherTarget();
         }
-        if(_project_deadline_date_unix <= block.timestamp){
-            revert InvalidTimeInput();
-        }
-        if(s_title.strlen()<=MINIMUM_CHAR_LEN || s_title.strlen()>=MAX_CHAR_LEN){
+        // if(_project_deadline_date_unix <= block.timestamp){
+        //     revert InvalidTimeInput();
+        // }
+        if(_title.strlen()<=MINIMUM_CHAR_LEN || _title.strlen()>=MAX_CHAR_LEN){
             revert InvalidCharLen();
         }
-        if(s_description.strlen()<=MINIMUM_CHAR_LEN || s_description.strlen()>=MAX_CHAR_LEN){
+        if(_description.strlen()<=MINIMUM_CHAR_LEN || _description.strlen()>=MAX_CHAR_LEN){
             revert InvalidCharLen();
         }
         
@@ -137,6 +137,6 @@ contract Project is Ownable {
         view
         returns (string memory _title, string memory _description)
     {
-        return (title, description);
+        return (s_title, s_description);
     }
 }
