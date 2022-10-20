@@ -5,7 +5,7 @@ pragma solidity ^0.8.9;
 import "./Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "./ProjectDAO.sol";
+import "./Project.sol";
 import {LibraryEvents} from "./Utils.sol";
 
 /**
