@@ -5,9 +5,14 @@ pragma solidity ^0.8.9;
 import "./Utils.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-error NeedToSetHigherTarget();
-error InvalidTimeInput();
-error InvalidCharLen();
+/// Target Value needs to be greater than MINIMUM_TARGET_AMOUNT.
+error NeedToSetHigherTarget(uint256 given, uint256 required);
+
+/// Target Value needs to be greater than MINIMUM_TARGET_AMOUNT.
+error InvalidTimeInput(uint256 difference);
+
+/// Project Variables String must be between MIN/MAX_CHAR_LEN.
+error InvalidCharLen(uint256 givenLength);
 
 /**
  * @title ProjectManagerContract
@@ -57,19 +62,18 @@ contract Project is Ownable {
     ) {
         //Validate
         if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
-            revert NeedToSetHigherTarget();
+            revert NeedToSetHigherTarget(_project_target_price, MINUMUM_TARGET_AMOUNT);
         }
-        // if(_project_deadline_date_unix <= block.timestamp){
-        //     revert InvalidTimeInput();
-        // }
+        if(_project_deadline_date_unix <= block.timestamp){
+            revert InvalidTimeInput(block.timestamp - _project_deadline_date_unix);
+        }
         if(_title.strlen()<=MINIMUM_CHAR_LEN || _title.strlen()>=MAX_CHAR_LEN){
-            revert InvalidCharLen();
+            revert InvalidCharLen(_title.strlen());
         }
         if(_description.strlen()<=MINIMUM_CHAR_LEN || _description.strlen()>=MAX_CHAR_LEN){
-            revert InvalidCharLen();
+            revert InvalidCharLen(_description.strlen());
         }
         
-
         i_projectID = _projectID;
         i_target_price = _project_target_price;
         i_deadline_date_unix = _project_deadline_date_unix;
