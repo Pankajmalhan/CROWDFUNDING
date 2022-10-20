@@ -11,5 +11,9 @@
     "test": "truffle test"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
 }
