@@ -1,65 +1,98 @@
 const ProjectFactory = artifacts.require("ProjectFactory");
+var Web3 = require('web3');
 
 contract('ProjectFactory', () => {
-    it('intial project count should be 0', async () => {
-        const simpleStorageInstance = await ProjectFactory.deployed();
-        var value = (await simpleStorageInstance.getProjectLists());
-        assert.equal(value.length, 0, "factory is not reset to init");
-    });
-
-    it('Add new project', async () => {
+    it('Project is pushed to array once created', async () => {
+        const projectFactory = await ProjectFactory.deployed();
         const accounts = await web3.eth.getAccounts();
-        const simpleStorageInstance = await ProjectFactory.deployed();
+
+        const deploy_account = accounts[0]
+
+        var tx = await projectFactory.createNewProject("This is a title", "This is a desc", 100, 1666285902, 1, {
+            from: deploy_account,
+            gasLimit: 8000000
+        });
+        
+        tx = await projectFactory.getProjectLists()
+
+        assert.equal(tx.length, 1, "Project is pushed to array once created");
+    });
+    it('Project counter is incremented once created', async () => {
+        const projectFactory = await ProjectFactory.deployed();
+
+        tx = await projectFactory.getCurrentProjectID()
+
+        assert.equal(tx.words[0], 1, "Project counter is incremented once created")
+    });
+    it('Title & Desc Validation', async () => {
+        const projectFactory = await ProjectFactory.deployed();
+        const accounts = await web3.eth.getAccounts();
+        const deploy_account = accounts[0]
+
+        var title = "This is a very long title and it should be reverted"
+        var desc = "This is a very long description and it should be reverted"
+        const target = 100
+        const deadline = 1666285902
+        const min_fund = 1
+
+        try {
+            tx = await projectFactory.createNewProject(title, desc, target, deadline, min_fund, {
+            from: deploy_account,
+            gasLimit: 8000000
+        });
+        } catch (error) {
+            const PREFIX = "Returned error: VM Exception while processing transaction: revert -- Reason given: Custom error (could not decode).";
+            assert(error.message.startsWith(PREFIX), "Reverts when validation logic is not met");
+        }
 
         const _projectTitle = 'Title';
         const _desc = 'This is my project Desc';
-        const _project_target_price = 12000;
-        const _projest_deadline_date_unix = 12000;
-        const _project_minimum_fund_price = 2000;
 
-        var value = await simpleStorageInstance.createNewProject(
-            _projectTitle,
-            _desc,
-            _project_target_price,
-            _projest_deadline_date_unix,
-            _project_minimum_fund_price
-            , {
-                from: accounts[0],
-                gasLimit: 8000000
-            });
-        assert(value.tx, "function excuted successfully");
-        assert.equal(value.receipt.from.toLowerCase(), accounts[0].toLowerCase(), "transection sent from right user");
+        try {
+            tx = await projectFactory.createNewProject(_projectTitle, _desc, target, deadline, min_fund, {
+            from: deploy_account,
+            gasLimit: 8000000
+        });
+        } catch (error) {
+            const PREFIX = "Returned error: VM Exception while processing transaction: revert -- Reason given: Custom error (could not decode).";
+        }
 
-        var projectData = await simpleStorageInstance.getProjectLists();
-        assert.equal(projectData.length, 1, "New Project added to factory");
+        tx = await projectFactory.getProjectLists()
+
+        assert.equal(tx.length, 1, "Project is successfully created with shorter length");
     });
-
-    it('Verify Newly Created Project Data', async () => {
+    it('Target & MinFund Validation', async () => {
+        const projectFactory = await ProjectFactory.deployed();
         const accounts = await web3.eth.getAccounts();
-        const simpleStorageInstance = await ProjectFactory.deployed();
+        const deploy_account = accounts[0]
 
-        const _projectTitle = 'Title';
-        const _desc = 'This is my project Desc';
-        const _project_target_price = 12000;
-        const _projest_deadline_date_unix = 12000;
-        const _project_minimum_fund_price = 22000;
+        var title = "Title"
+        var desc = "This is my project Desc"
+        const target = Web3.utils.toWei('0.1', "ether")
+        const deadline = 1666285902
+        const min_fund = Web3.utils.toWei('0.1', "ether")
 
-        var value = await simpleStorageInstance.createNewProject(
-            _projectTitle,
-            _desc,
-            _project_target_price,
-            _projest_deadline_date_unix,
-            _project_minimum_fund_price
-            , {
-                from: accounts[0],
-                gasLimit: 8000000
-            });
+        try {
+            tx = await projectFactory.createNewProject(title, desc, target, deadline, min_fund, {
+            from: deploy_account,
+            gasLimit: 8000000
+        });
+        } catch (error) {
+            const PREFIX = "Returned error: VM Exception while processing transaction:";
+            assert(error.message.startsWith(PREFIX), "Reverts when validation logic is not met");
+        }
 
-        var projectLists = await simpleStorageInstance.getProjectLists();
-        var projectData = await simpleStorageInstance.getProjectInfoByAddress(projectLists[0].projectAddress);
+        try {
+            tx = await projectFactory.createNewProject(_projectTitle, _desc, Web3.utils.toWei('100', "ether"), 1666285902, Web3.utils.toWei('1', "ether"), {
+            from: deploy_account,
+            gasLimit: 8000000
+        });
+        } catch (error) {
+            const PREFIX = "Returned error: VM Exception while processing transaction: revert -- Reason given: Custom error (could not decode).";
+        }
 
-        assert.equal(projectData._title, _projectTitle, "Project title is not correct");
-        assert.equal(projectData._description, _desc, "Project description is not correct");
+        tx = await projectFactory.getProjectLists()
+
+        assert.equal(tx.length, 1, "Project is successfully created with shorter length");
     });
 });
-

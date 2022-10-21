@@ -1,0 +1,6 @@
+### how to run mythril test runs
+myth analyze contracts/Project.sol --solc-json remapping.json --max-depth 25 
+Link: https://mythril-classic.readthedocs.io/en/master/tutorial.html
+
+
+slither contracts/Project.sol --solc-args "--include-path=./node_modules --base-path=./contracts"
