@@ -22,25 +22,28 @@ li {
 .main-nav {
   width: 100%;
   height: 10rem;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   /* background: -webkit-linear-gradient(180deg, hsla(2, 65%, 44%, 1) 0%, hsla(212, 80%, 42%, 1) 100%);  linear-gradient( #b92b27 -1%, #1565c0 100%); */
   background: -webkit-linear-gradient(360deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%);;
-
-  grid-template-columns: 10rem 1fr 2fr 1fr 10rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 .logo {
-  display: grid;
-  /* background-color: #3b5998; */
-  grid-column: 2/3;
-  justify-content: start;
+  display: flex;
   align-items: center;
 }
-
+.logo img{
+  width: 10rem;
+  justify-content: center;
+  align-items: center;
+}
 .menu-link{
-  grid-column: 3/4;
+  display: flex;
+  padding-left: 2rem;
+  justify-content: space-around;
 }
 
 .menu-link ul {
@@ -49,16 +52,44 @@ li {
   justify-content: space-around;
   align-items: center;
 }
-.menu-link li:hover{
+.menu-link li{
   height: 10rem;
+  padding: 3rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+.menu-link li:hover{
+  height: 10rem;
+  padding: 3rem;
+  display: flex;
+  background-color:darkgray;
+  justify-content: space-around;
+  align-items: center;
+}
+.btnContainer{
+  display: flex;
+}
+.btnContainer button{
+  width: 17rem;
+  height: 5rem;
+  /* background: -webkit-linear-gradient(180deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%); */
+  background-color: hsla(0, 19%, 88%, 1) ;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border-width: 0.2rem;
+  border-color:hsla(0, 100%, 26%, 1);
+  align-items: center;
+  text-transform:uppercase;
+  color:hsla(0, 100%, 26%, 1);
+  font-weight:900;
+}
 
 .logo h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 400;
+  padding-left: 2rem;
+  background-color: blueviolet;
   text-transform: uppercase;
   /* background: -webkit-linear-gradient(#eee, rgba(0, 89, 255, 0.747)); */
   /* background: -webkit-linear-gradient(90deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%); */
@@ -80,13 +111,13 @@ li {
   text-transform: capitalize;
   /* color: rgba(230, 230, 238, 0.8); */
   color: hsla(0, 100%, 26%, 1);
-  ;
+  /* color: rgb(12, 12, 12); */
   transition: 0.5s;
 }
 .menu-link ul li:hover > a {
   transform-origin: left;
-  color: rgba(0, 0, 3, 1);
-  text-decoration: underline;
+  color: rgb(240, 240, 247);
+  text-decoration: none;
   transition: 0.5s;
 }
 

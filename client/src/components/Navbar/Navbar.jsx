@@ -1,5 +1,6 @@
 import React from 'react';
 import {  NavLink } from "react-router-dom";
+import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
 
 const Navbar= () =>{
@@ -8,6 +9,7 @@ const Navbar= () =>{
     <nav className="main-nav">
       {/* 1st logo part  */}
       <div className="logo">
+      <img src={logo} alt={'Logo'}/>
         <h2>
           <span>C</span>rowd
           <span> F</span>unding
@@ -22,17 +24,19 @@ const Navbar= () =>{
             <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/AboutUs">About Us</NavLink>
+            <NavLink to="/Projects">Projects</NavLink>
           </li>
           <li>
-            <NavLink to="/service">services</NavLink>
+            <NavLink to="/AboutUs">About Us</NavLink>
           </li>
           <li>
             <NavLink to="/contact">contact</NavLink>
           </li>
         </ul>
-        
       </div>
+      <div className='btnContainer'>
+        <button>Sign Up</button>
+        </div>
     </nav>
     </>
   );
