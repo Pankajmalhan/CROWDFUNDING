@@ -2,6 +2,12 @@ import React from 'react';
 import {  NavLink } from "react-router-dom";
 import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
+import {
+  checkCorrectNetwork,
+  checkWalletAvailable,
+  getMainBalance,
+  getUserAddress,
+} from "../../actions/Web3Actions";
 
 const Navbar= () =>{
   return (
@@ -35,7 +41,7 @@ const Navbar= () =>{
         </ul>
       </div>
       <div className='btnContainer'>
-        <button>Sign Up</button>
+        <button onClick={checkWalletAvailable}>Sign Up</button>
         </div>
     </nav>
     </>
