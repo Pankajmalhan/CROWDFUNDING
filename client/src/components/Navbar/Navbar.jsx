@@ -9,6 +9,19 @@ import {
   getUserAddress,
 } from "../../actions/Web3Actions";
 
+const connectMetamask=async() =>{
+  let checkWallet = await checkWalletAvailable();
+  let userAddress = await getUserAddress();
+
+  if(checkWallet === true){
+   console.log('Wallet is available');
+   console.log('Address:',userAddress);
+  }
+  else{
+   console.log('Wallet is not available');
+  }
+}
+
 const Navbar= () =>{
   return (
     <>
@@ -41,7 +54,7 @@ const Navbar= () =>{
         </ul>
       </div>
       <div className='btnContainer'>
-        <button onClick={checkWalletAvailable}>Sign Up</button>
+        <button onClick={connectMetamask}>Sign Up</button>
         </div>
     </nav>
     </>
