@@ -2,8 +2,10 @@ import React from 'react';
 import {  NavLink } from "react-router-dom";
 import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
-
-const Navbar= () =>{
+const Navbar =({handleLoginClick}) =>{
+  const handleClick = () => {
+    handleLoginClick();
+  };
   return (
     <>
     <nav className="main-nav">
@@ -27,15 +29,12 @@ const Navbar= () =>{
             <NavLink to="/Projects">Projects</NavLink>
           </li>
           <li>
-            <NavLink to="/AboutUs">About Us</NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact">contact</NavLink>
+            <NavLink to="/Create">Create Project</NavLink>
           </li>
         </ul>
       </div>
       <div className='btnContainer'>
-        <button>Sign Up</button>
+        <button onClick={handleClick}>Sign Up</button>
         </div>
     </nav>
     </>
