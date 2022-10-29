@@ -35,7 +35,8 @@ function App(){
     <>
     <Navbar handleLoginClick={handleLoginClick} />
     <Pages/>
-    <LoginForm isShowLogin={isShowLogin} handleClose={()=>setIsShowLogin(false)}/>
+    <LoginForm isShowLogin={isShowLogin} handleClose={()=>setIsShowLogin(false)}/> 
+    <Footer/>
     </>
   )
 }

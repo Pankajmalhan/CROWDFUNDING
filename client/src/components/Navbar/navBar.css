@@ -70,8 +70,15 @@ li {
 }
 .btnContainer{
   display: flex;
+  justify-content: space-around;
+  padding: 1rem;
 }
-.btnContainer button{
+.btnContainer div{
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+}
+.btnContainer bddutton{
   width: 17rem;
   height: 4rem;
   /* background: -webkit-linear-gradient(180deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%); */
@@ -85,6 +92,28 @@ li {
   text-transform:uppercase;
   color:hsla(0, 19%, 88%, 1);
   font-weight:900;
+}
+.btnContainer button{
+  background-color: hsla(0, 100%, 26%, 1); /* Green */
+  border: none;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  border-radius: 1.2rem
+}
+.connect button{
+  background-color:hsla(0, 100%, 28%, 1); /* Green */
+  /* border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5rem;
+  border-radius: 1.2rem */
 }
 
 .logo h2 {

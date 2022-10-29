@@ -8,10 +8,10 @@ import {
   getMainBalance,
   getUserAddress,
 } from "../../actions/Web3Actions";
+import {AiFillLock ,AiOutlineUsergroupAdd} from 'react-icons/ai'
 
 
-
-const Navbar= () =>{
+const Navbar= ({handleLoginClick}) =>{
   const connectMetamask=async() =>{
     let checkWallet = await checkWalletAvailable();
     let userAddress = await getUserAddress();
@@ -24,6 +24,10 @@ const Navbar= () =>{
      console.log('Wallet is not available');
     }
   }
+
+  const handleClick = () => {
+    handleLoginClick();
+  };
   return (
     <>
     <nav className="main-nav">
@@ -52,7 +56,12 @@ const Navbar= () =>{
         </ul>
       </div>
       <div className='btnContainer'>
-        <button onClick={connectMetamask}>Sign Up</button>
+        <div className='connect'>
+        <button onClick={connectMetamask}>Connect Wallet <AiFillLock/></button>
+        </div>
+        <div className='signUp'>
+        <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button>
+        </div>
         </div>
     </nav>
     </>
