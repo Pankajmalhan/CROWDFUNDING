@@ -1,13 +1,11 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
-
 export const Main = () =>{
     return (
         <>
-        <div>
-            <Outlet/>
-            <h1>Hello</h1>
-            
+        <div className= 'container'>
+            <div className='sub'>
+                <h1>Main Page</h1>
+            </div>   
         </div>
         </>
     )

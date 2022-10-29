@@ -9,20 +9,21 @@ import {
   getUserAddress,
 } from "../../actions/Web3Actions";
 
-const connectMetamask=async() =>{
-  let checkWallet = await checkWalletAvailable();
-  let userAddress = await getUserAddress();
 
-  if(checkWallet === true){
-   console.log('Wallet is available');
-   console.log('Address:',userAddress);
-  }
-  else{
-   console.log('Wallet is not available');
-  }
-}
 
 const Navbar= () =>{
+  const connectMetamask=async() =>{
+    let checkWallet = await checkWalletAvailable();
+    let userAddress = await getUserAddress();
+  
+    if(checkWallet === true){
+     console.log('Wallet is available');
+     console.log('Address:',userAddress);
+    }
+    else{
+     console.log('Wallet is not available');
+    }
+  }
   return (
     <>
     <nav className="main-nav">
@@ -46,10 +47,7 @@ const Navbar= () =>{
             <NavLink to="/Projects">Projects</NavLink>
           </li>
           <li>
-            <NavLink to="/AboutUs">About Us</NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact">contact</NavLink>
+            <NavLink to="/Create">Create Project</NavLink>
           </li>
         </ul>
       </div>
