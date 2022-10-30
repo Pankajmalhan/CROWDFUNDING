@@ -25,9 +25,9 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* background-color: hsla(0, 19%, 88%, 1); */
+  background-color:hsla(0, 19%, 88%, 1);
   /* background: -webkit-linear-gradient(180deg, hsla(2, 65%, 44%, 1) 0%, hsla(212, 80%, 42%, 1) 100%);  linear-gradient( #b92b27 -1%, #1565c0 100%); */
-  background: -webkit-linear-gradient(360deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%);;
+  /* background: -webkit-linear-gradient(360deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%);; */
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
@@ -71,6 +71,7 @@ li {
 .btnContainer{
   display: flex;
   justify-content: space-around;
+  height: 9rem;
   padding: 1rem;
 }
 .btnContainer div{
@@ -78,9 +79,9 @@ li {
   justify-content: space-around;
   padding: 1rem;
 }
-.btnContainer bddutton{
+.btnContainer busstton{
   width: 17rem;
-  height: 4rem;
+  height: 8rem;
   /* background: -webkit-linear-gradient(180deg, hsla(0, 19%, 88%, 1) 0%, hsla(192, 28%, 21%, 1) 100%); */
   background-color: hsla(0, 100%, 26%, 1);
   justify-content: center;
