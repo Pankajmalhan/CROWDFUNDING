@@ -1,67 +1,21 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useContext} from 'react';
 import {  NavLink } from "react-router-dom";
 import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
-import Web3 from 'web3';
-import {
-  checkCorrectNetwork,
-  checkWalletAvailable,
-  getMainBalance,
-  getUserAddress,
-} from "../../actions/Web3Actions";
 import {AiFillLock ,AiOutlineUsergroupAdd} from 'react-icons/ai'
 import ProfileCard from '../Cards/ProfileCard';
+import Web3 from 'web3';
+
+import { WalletContext } from '../../web3context/walletContext';
 
 
 
 const Navbar= ({handleLoginClick}) =>{
-  const [address,setAddress] = React.useState("")
 
-  useEffect(()=>{
-    setAddress(address)
-  },[address])
-  
-const connectMetamask=async() =>{
-    let checkWallet = await checkWalletAvailable();
-    let userAddress = await getUserAddress();
-  
-    if(checkWallet === true){
-     console.log('Wallet is available');
-     console.log('Address:',userAddress);
-     setAddress(userAddress);
-     if(userAddress){
-        fetch(`http://localhost:4080/users/getNonce`, {
-      body: JSON.stringify({ publicAddress:userAddress }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    })
-      .then(response => response.json())
-      // If yes, retrieve it. If no, create it.
-      .then((user)=>{
-        if(!user.data){
-          console.log("hii");
-          handleSignup(userAddress);
-        }
-        else{
-          console.log("byee");
-          handleSignMessage(user?.data.publicAddress,user?.data.nonce)
-        }
-       //  users.length ? users[0] : handleSignup(userAddress)})
-     })
-          //  .then(handleSignMessage())
-      // Send signature to backend on the /auth route
-      // .then(handleAuthenticate)
-      // Pass accessToken back to parent component (to save it in localStorage)
-      // --snip--
-  };
-     }
-    
-    else{
-     console.log('Wallet is not available');
-    }
-  }
+  const context = useContext(WalletContext);
+  console.log(context)
+  const {connect, wallet } = context;
+
 
    const handleSignMessage = async (
     publicAddress,
@@ -106,6 +60,7 @@ const connectMetamask=async() =>{
   const handleClick = () => {
     handleLoginClick();
   };
+
   return (
     <>
     <nav className="main-nav">
@@ -135,16 +90,16 @@ const connectMetamask=async() =>{
       </div>
       <div className='btnContainer'>
         <div className='connect'>
-        <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connectMetamask}>Connect Wallet <AiFillLock/></button>
+        <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connect}>Connect Wallet <AiFillLock/></button>
         </div>
         <div className='signUp'>
-        {true ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
+        {!wallet ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
         <ProfileCard/>}
         </div> 
         </div>
     </nav>
     <div className='container' >
-      <h3 style={{color: !!address ? "green" : "red"}}> Metamask Wallet: {!!address ? `${address} (Connected)` :  "Not connected"}</h3>
+      <h3 style={{color: !!wallet ? "green" : "red"}}> Metamask Wallet: {!!wallet ? `${wallet} (Connected)` :  "Not connected"}</h3>
     </div>
     
     </>
