@@ -6,7 +6,6 @@ const registerUser = (p) => {
       (email = p.email),
       (password = p.password),
       (publicAddress = p.publicAddress);
-    console.log(userName, email, password);
     const user = new User({
       userName,
       email,

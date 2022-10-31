@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const initMongo = require("./config/mongo");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 // const { userRouter } = require("./routes/users");
 
@@ -15,6 +16,14 @@ app.use(
   bodyParser.urlencoded({
     limit: "50mb",
     extended: true,
+  })
+);
+
+// Init all other stuff
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
   })
 );
 

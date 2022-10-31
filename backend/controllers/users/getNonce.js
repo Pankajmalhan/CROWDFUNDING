@@ -2,7 +2,14 @@ const User = require("../../models/user");
 
 const getNonce = async (req, res) => {
   try {
-    const user = await User.findOne({ publicAddress: req.body.publicAddress });
+    const user = await User.findOne(req.body);
+    console.log(user);
+    if (!user) {
+      return res.json({
+        status: 200,
+        data: null,
+      });
+    }
     delete user.password;
     res.json({
       status: 200,

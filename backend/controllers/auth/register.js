@@ -1,8 +1,12 @@
 const { registerUser } = require("./helpers");
+const User = require("../../models/user");
 
 const register = async (req, res) => {
   try {
-    const user = await registerUser(req.body);
+    let user = await User.findOne({ publicAddress: req.body.publicAddress });
+    if (!user) {
+       user = await registerUser(req.body);
+    }
     res.json({
       status: 201,
       data: user,
@@ -10,7 +14,7 @@ const register = async (req, res) => {
   } catch (err) {
     res.json({
       status: 422,
-      data: err,
+      data: null,
     });
   }
 };
