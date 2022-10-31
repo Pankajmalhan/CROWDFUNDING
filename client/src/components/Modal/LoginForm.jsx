@@ -2,7 +2,7 @@ import React from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/button'
+import Button from 'react-bootstrap/Button';
 
 const LoginForm =({isShowLogin,handleClose}) =>{
 

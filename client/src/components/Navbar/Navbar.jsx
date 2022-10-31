@@ -1,41 +1,25 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useContext} from 'react';
 import {  NavLink } from "react-router-dom";
 import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
-import {
-  checkCorrectNetwork,
-  checkWalletAvailable,
-  getMainBalance,
-  getUserAddress,
-} from "../../actions/Web3Actions";
 import {AiFillLock ,AiOutlineUsergroupAdd} from 'react-icons/ai'
 import ProfileCard from '../Cards/ProfileCard';
 
 
-const Navbar= ({handleLoginClick}) =>{
-  const [address,setAddress] = React.useState("")
+import { WalletContext } from '../../web3context/walletContext';
 
-  useEffect(()=>{
-    setAddress(address)
-  },[address])
-  
-  const connectMetamask=async() =>{
-    let checkWallet = await checkWalletAvailable();
-    let userAddress = await getUserAddress();
-  
-    if(checkWallet === true){
-     console.log('Wallet is available');
-     console.log('Address:',userAddress);
-     setAddress(userAddress)
-    }
-    else{
-     console.log('Wallet is not available');
-    }
-  }
+
+const Navbar= ({handleLoginClick}) =>{
+
+  const context = useContext(WalletContext);
+  console.log(context)
+  const {connect, wallet } = context;
+
 
   const handleClick = () => {
     handleLoginClick();
   };
+
   return (
     <>
     <nav className="main-nav">
@@ -65,7 +49,7 @@ const Navbar= ({handleLoginClick}) =>{
       </div>
       <div className='btnContainer'>
         <div className='connect'>
-        <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connectMetamask}>Connect Wallet <AiFillLock/></button>
+        <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connect}>Connect Wallet <AiFillLock/></button>
         </div>
         <div className='signUp'>
         {!true ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
@@ -74,7 +58,7 @@ const Navbar= ({handleLoginClick}) =>{
         </div>
     </nav>
     <div className='container' >
-      <h3 style={{color: !!address ? "green" : "red"}}> Metamask Wallet: {!!address ? `${address} (Connected)` :  "Not connected"}</h3>
+      <h3 style={{color: !!wallet ? "green" : "red"}}> Metamask Wallet: {!!wallet ? `${wallet} (Connected)` :  "Not connected"}</h3>
     </div>
     
     </>
