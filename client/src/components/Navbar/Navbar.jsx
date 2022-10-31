@@ -4,7 +4,7 @@ import logo from '../../Assets/img/tftLogo.png';
 import "./navBar.css";
 import {AiFillLock ,AiOutlineUsergroupAdd} from 'react-icons/ai'
 import ProfileCard from '../Cards/ProfileCard';
-
+import Web3 from 'web3';
 
 import { WalletContext } from '../../web3context/walletContext';
 
@@ -52,7 +52,7 @@ const Navbar= ({handleLoginClick}) =>{
         <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connect}>Connect Wallet <AiFillLock/></button>
         </div>
         <div className='signUp'>
-        {!true ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
+        {!wallet ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
         <ProfileCard/>}
         </div> 
         </div>

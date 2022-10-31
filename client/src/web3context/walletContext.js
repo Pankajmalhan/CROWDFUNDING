@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import Web3 from "web3";
+import { getNonce } from "../helper/apiRequests";
 
 const defaultValue = null;
 const WalletContext = React.createContext(defaultValue);
@@ -53,6 +54,9 @@ const Web3Provider = ({ children }) => {
     const setValues = async () => {
       if (web3) {
         const address = await getUserAddress();
+        // if(address) {
+        //   await getNonce(address)
+        // }
         setIsConnected(address != null);
         const balance = await getMainBalance();
         setBalance(balance);
