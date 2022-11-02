@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./Project.sol";
-import {LibraryEvents} from "./Utils.sol";
 
 /**
  * @title ProjectManagerContract
@@ -29,6 +28,17 @@ contract ProjectFactory {
 
     // Array to store all projects
     ProjectEntity[] private projects;
+
+    event ProjectStarted(
+        uint16 _projectID,
+        string _title,
+        string _description,
+        uint256 _project_target_price,
+        uint256 _projest_deadline_date_unix,
+        uint256 _project_minimum_fund_price,
+        address _projectOwner,
+        address _contractAddress
+    );
 
     //Functions
     function createNewProject(
@@ -59,7 +69,8 @@ contract ProjectFactory {
             _project_target_price,
             _projest_deadline_date_unix,
             _project_minimum_fund_price,
-            msg.sender);
+            msg.sender,
+            address(project));
     }
 
 
