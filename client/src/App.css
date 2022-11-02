@@ -245,12 +245,21 @@ li {
   display: flex;
   justify-content:space-between;
   font-size:2rem;
-  padding: 1.5rem;
+  padding: 0.8rem;
 }
 .form-campaign input{
   display: flex;
   justify-content:flex-end;
   width: 30rem;
+}
+.form-campaign p{
+  display: flex;
+  justify-content:flex-start;
+  align-self: flex-end; 
+  width: 28rem;
+  color: red;
+  font-size: 1rem;
+  /* background-color: #1266cc; */
 }
 .form-campaign button{
   display: flex;

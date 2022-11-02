@@ -11,12 +11,13 @@ export const CreateProject = () => {
     handleSubmit,
     trigger,
     getValues,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
   });
   const data = useWatch({ control });
-
+  const mindate =  new Date().toLocaleDateString();
   React.useEffect(() => {
     setAddress();
   }, [userAddress]);
@@ -31,6 +32,7 @@ export const CreateProject = () => {
     if (data) {
       const res = { ...data, ...{ publicAddress: userAddress ?? "" } };
       console.log(res, "data");
+      alert(" Project successfully Added")
     }
   }
   return (
@@ -44,45 +46,64 @@ export const CreateProject = () => {
               <input
                 style={{ fontSize: "1.5rem" }}
                 placeholder="Enter title"
-                {...register("title")}
+                {...register("title",{required: "*Title Required"})}
                 type={"text"}
-              ></input>
+              >
+              </input>
             </div>
+            {errors?.title && <p>{errors?.title.message}</p>}
             <div className="description">
               <h2>Description:</h2>
               <input
                 style={{ fontSize: "1.5rem" }}
                 placeholder="Enter description"
-                {...register("description")}
+                {...register("description", {required: "*Description Required"})}
                 type={"textarea"}
                 className="desc"
-              ></input>
+              ></input>    
             </div>
+            {errors?.description && <p>{errors?.description.message}</p>}
             <div className="deadline">
               <h2>Deadline:</h2>
               <input
                 style={{ fontSize: "1.5rem" }}
                 placeholder="Select last date"
-                {...register("deadline")}
+                {...register("deadline" , {required: "*Deadline Required" , min: {mindate}})}
                 type={"date"}
-              ></input>
-            </div>
+              ></input>      
+              </div>
+              {errors?.deadline && <p>{errors?.deadline.message}</p>}         
             <div className="targetprice">
               <h2>Target Price:</h2>
               <input
                 style={{ fontSize: "1.5rem" }}
                 placeholder="Select Target Amount"
-                {...register("targetPrice")}
+                {...register("targetPrice",{required: "*Target ammount Required"})}
                 type={"number"}
-              ></input>
+                min="10" 
+                max="99999"
+              ></input>         
             </div>
+            {errors?.targetPrice && <p>{errors?.targetPrice.message}</p>}
             <div className="mincontribution">
               <h2>Minimum Contribution:</h2>
               <input
                 style={{ fontSize: "1.5rem" }}
                 placeholder="Select Minimum Contribution"
-                {...register("minimumContribution")}
+                {...register("minimumContribution", {required: "*Minimum Contribution Required"})}
                 type={"number"}
+                min="0" 
+                max="99999"
+              ></input>
+            </div>
+            {errors?.minimumContribution && <p>{errors?.minimumContribution.message}</p>}
+            <div >
+              <h2>Upload Image:</h2>
+              <input
+                style={{ fontSize: "1.5rem" }}
+                placeholder="Select File"
+                {...register("image")}
+                type={"file"}
               ></input>
             </div>
             <div className="address">
