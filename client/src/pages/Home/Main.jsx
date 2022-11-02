@@ -2,6 +2,7 @@ import React from 'react'
 import {FaDonate,FaUserShield} from 'react-icons/fa'
 import {MdCampaign} from 'react-icons/md'
 import ProfileCard from '../../components/Cards/ProfileCard'
+import ProjectDetail from '../Projects/projectDetails'
 export const Main = () =>{
     return (
         <>
@@ -24,6 +25,7 @@ export const Main = () =>{
                     <h1>Number of users<br/>20</h1>
                     </div>
                 </div>
+                <ProjectDetail/>
                 {/* ProfileCard */}
                 {/* <ProfileCard/> */}
             </div>   

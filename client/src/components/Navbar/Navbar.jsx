@@ -12,8 +12,7 @@ import { WalletContext } from '../../web3context/walletContext';
 const Navbar= ({handleLoginClick}) =>{
 
   const context = useContext(WalletContext);
-  console.log(context)
-  const {connect, wallet } = context;
+  const {connect, wallet , networkInfo} = context;
 
 
   const handleClick = () => {
@@ -36,9 +35,9 @@ const Navbar= ({handleLoginClick}) =>{
       <div
         className="menu-link">
         <ul>
-          <li>
+          {/* <li>
             <NavLink to="/">Home</NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink to="/Projects">Projects</NavLink>
           </li>
@@ -48,13 +47,13 @@ const Navbar= ({handleLoginClick}) =>{
         </ul>
       </div>
       <div className='btnContainer'>
-        <div className='connect'>
-        <button style={{backgroundColor: !false ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connect}>Connect Wallet <AiFillLock/></button>
-        </div>
         <div className='signUp'>
-        {!wallet ? <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button> : 
-        <ProfileCard/>}
+        <button onClick={handleClick}>Sign Up <AiOutlineUsergroupAdd/></button>  
         </div> 
+        <div className='connect'>
+        {!wallet ? <button style={{backgroundColor: !!wallet ? "rgba(0, 0, 0, 0.5)" : ""}} onClick={connect}>Connect Wallet <AiFillLock/></button>:
+        <ProfileCard publicAddress={wallet} network={!!networkInfo? networkInfo.name : ""}/>}
+        </div>
         </div>
     </nav>
     <div className='container' >

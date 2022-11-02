@@ -32,16 +32,10 @@ export const CreateProject = () => {
   }
   
   function onSubmit(e) {
-    if (data?.image?.length) {
-      handleImageUpload().then((d)=>{
-        if(d) {
-          const res = { ...data, ...{ publicAddress: userAddress ?? "" , cid : d}};
+    if (data) {
+      handleImageUpload().then((cid_id)=>{
+          const res = { ...data, ...{ publicAddress: userAddress ?? "" , cid : !!cid_id ? cid_id : ""}};
           alert(" Project successfully Added")
-      }
-      else {
-        const res = { ...data, ...{ publicAddress: userAddress ?? "" , cid : ""}};
-      alert(" Project successfully Added")
-      }
     })
     }
   }

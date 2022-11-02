@@ -11,7 +11,7 @@ const { Provider, Consumer } = WalletContext;
 const Web3Provider = ({ children }) => {
   const [isConnected, setIsConnected] = React.useState(false);
   const [wallet, setWallet] = React.useState(null);
-  const [network_id, setNetwork] = React.useState(null);
+  const [networkInfo, setNetwork] = React.useState(null);
   const [balance, setBalance] = React.useState(null);
   const [web3, setWeb3] = React.useState(null);
 
@@ -38,16 +38,16 @@ const Web3Provider = ({ children }) => {
     return mainBalance;
   };
 
-  const getNetwork = async () => {
+  const getNetworkInfo = async () => {
     //makes a request to get network ID
-    let chainID;
-    chainID = await web3.eth.getChainId();
-    return chainID;
+    let info={};
+    info.chainID = await web3.eth.getChainId();
+    info.name =await web3.eth.net.getNetworkType();
+    return info;
   };
 
   const connect = async () => {
     //init web3
-
     if (typeof window.web3 !== "undefined" && !web3) {
       setWeb3(new Web3(window.web3.currentProvider));
     }
@@ -60,8 +60,9 @@ const Web3Provider = ({ children }) => {
         setIsConnected(address != null);
         const balance = await getMainBalance();
         setBalance(balance);
-        const network_id = await getNetwork();
-        setNetwork(network_id);
+        const network_info = await getNetworkInfo();
+        setNetwork(network_info);
+        console.log("5")
       }
     };
     await setValues();
@@ -71,7 +72,7 @@ const Web3Provider = ({ children }) => {
     <Provider
       value={{
         wallet,
-        network_id,
+        networkInfo,
         balance,
         isConnected,
         connect,
