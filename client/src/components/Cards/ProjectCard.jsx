@@ -5,12 +5,14 @@ import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useCountdown } from "../../helper/useCountdown";
+import {useNavigate} from 'react-router-dom';
+import { Loading } from "../Loader/Loader";
 
-
-const ProjectCard = (item , detailsScreen) => {
+const ProjectCard = (projectData , detailsScreen) => {
   const targetDate = new Date("2022/11/04");
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  const { title, description } = item?.data;
+  const { title, description } = projectData?.data;
+  const navigate = useNavigate();
   const cardContainer = {
       width: "40rem",
       height: "auto",
@@ -31,11 +33,18 @@ const ProjectCard = (item , detailsScreen) => {
     borderRadius:'1rem',
     width:"100%",
   }
+  function handleDonateButton(){
+    navigate('/ProjectDetails',{state: projectData?.data});
+}
+
   return (
   <>
     <Card
       style={cardContainer}
     >
+      {projectData?.data.title === "New Prj" ? <Loading/>
+      :
+      <>
       <Card.Img variant="top" src={Image} />
       <Card.Body>
         <Card.Title style={textStyle}>{title}</Card.Title>
@@ -46,10 +55,13 @@ const ProjectCard = (item , detailsScreen) => {
         </p>
         <Button
           style={buttonStyle}
+          onClick={handleDonateButton}
         >
           Donate
         </Button>
       </Card.Body>
+      </>
+}
     </Card>
     </>
   );

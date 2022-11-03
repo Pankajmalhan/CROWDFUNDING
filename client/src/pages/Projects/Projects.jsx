@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import ProjectCard from "../../components/Cards/ProjectCard";
 import { FaDonate, FaUserShield } from "react-icons/fa";
 import { MdCampaign } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 export const Projects = () => {
+ const navigate = useNavigate();
   const data = [
     {
       title: "New Prj",
@@ -25,6 +28,9 @@ export const Projects = () => {
       description: "Prj 2 Dummy content added for the description",
     },
   ];
+  function createNewProject(){
+      navigate('/Create')
+  }
   function NoData() {
     const noDataContainer = {
       display: "flex",
@@ -46,7 +52,7 @@ export const Projects = () => {
     };
     return (
       <div style={noDataContainer}>
-        <button style={noDataButton}> Create New Project +</button>
+        <button  onClick={()=>createNewProject()} style={noDataButton}> Create New Project +</button>
       </div>
     );
   }
@@ -94,7 +100,6 @@ export const Projects = () => {
       {data && <div className="card-container">
         {data.map((item) => <ProjectCard data={item} />)}
       </div> }
-        
     </div>
   );
 };
