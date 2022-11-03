@@ -3,7 +3,17 @@ import Image from "../../Assets/img/eth.png";
 import { getUserAddress } from "../../actions/Web3Actions";
 import { useForm, useWatch } from "react-hook-form";
 import { copy } from "../../helper/function";
+
+import ABI from "../../contracts/ProjectFactory.json";
+import { ethers, utils } from "ethers";
+import { useContext } from "react";
+import Web3 from "web3";
+import { WalletContext } from "../../web3context/walletContext";
+
 export const CreateProject = () => {
+  const context = useContext(WalletContext);
+  const { wallet } = context;
+
   const [userAddress, setUserAddress] = React.useState("");
   const {
     register,
@@ -33,6 +43,30 @@ export const CreateProject = () => {
       console.log(res, "data");
     }
   }
+
+  const submitToBlockchain = async (e) => {
+    // e.preventDefault();
+    const factoryContractAddress = "0x224b4beFf9d3Eb0e2A241e1ba631f007eC0f6d86";
+    const abi = ABI.abi;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const wallet_signer = provider.getSigner(wallet);
+
+    if (data) {
+      const res = { ...data, ...{ publicAddress: userAddress ?? "" } };
+      console.log(res, "data");
+    }
+
+    const factoryContract = new ethers.Contract(
+      factoryContractAddress,
+      abi,
+      wallet_signer
+    );
+
+    let tx = await factoryContract.createNewProject("Title", "Desc", 100, 0, 1);
+    console.log(tx);
+    console.log(await tx.wait(3));
+  };
+
   return (
     <div className="container">
       <div className="divider">
@@ -105,7 +139,7 @@ export const CreateProject = () => {
                 margin: "1rem",
                 backgroundColor: "hsla(0, 100%, 26%, 1)",
               }}
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(submitToBlockchain)}
             >
               Submit
             </button>
