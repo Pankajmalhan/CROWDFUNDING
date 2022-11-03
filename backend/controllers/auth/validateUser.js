@@ -72,15 +72,9 @@ const validateUser = async (req, res) => {
       },
       "this is web 3.0"
     );
-    res.send({
-      status: 200,
-      data: token,
-    });
+    res.status(200).send({ token: token });
   } catch (err) {
-    res.json({
-      status: 422,
-      data: err,
-    });
+    res.status(400).send({ error: err });
   }
 };
 
