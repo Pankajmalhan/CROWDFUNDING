@@ -322,7 +322,7 @@ form{
 .mainpage-data span{
   border-right: 0.1rem solid gray;
 }
-.mainpage-data mainicons{
+.mainpage-data p{
   color:hsla(0, 100%, 26%, 1);
   font-size: 3.5rem;
   padding-right: 2rem;

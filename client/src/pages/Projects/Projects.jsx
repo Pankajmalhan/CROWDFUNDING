@@ -64,9 +64,9 @@ export const Projects = () => {
         {data ?
         <div className="mainpage-data">
           <div>
-            <mainicons>
+            <p>
               <FaDonate />
-            </mainicons>
+            </p>
             <h1>
               Total donations
               <br />
@@ -75,9 +75,9 @@ export const Projects = () => {
           </div>
           <span />
           <div>
-            <mainicons>
+            <p>
               <MdCampaign />
-            </mainicons>
+            </p>
             <h1>
               Total Projects
               <br /> 10
@@ -85,9 +85,9 @@ export const Projects = () => {
           </div>
           <span />
           <div>
-            <mainicons>
+            <p>
               <FaUserShield />
-            </mainicons>
+            </p>
             <h1>
               Number of users
               <br />
