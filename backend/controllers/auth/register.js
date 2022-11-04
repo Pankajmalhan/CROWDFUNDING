@@ -5,12 +5,11 @@ const register = async (req, res) => {
   try {
     let user = await User.findOne({ publicAddress: req.body.publicAddress });
     if (!user) {
-       user = await registerUser(req.body);
+      user = await registerUser(req.body);
+      res.status(201).send(user);
+    } else {
+      res.status(403).data("User already exists");
     }
-    res.json({
-      status: 201,
-      data: user,
-    });
   } catch (err) {
     res.json({
       status: 422,

@@ -62,8 +62,9 @@ contract ProjectFactory {
         projects.push(ProjectEntity(projectID, address(project)));
         _contractId.increment();
 
-        // emit event for project creation 
-        emit LibraryEvents.ProjectStarted(projectID,
+        // emit event for project creation
+        emit ProjectStarted(
+            projectID,
             _title,
             _description,
             _project_target_price,
