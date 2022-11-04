@@ -8,10 +8,14 @@ import { useCountdown } from "../../helper/useCountdown";
 import {useNavigate} from 'react-router-dom';
 import { Loading } from "../Loader/Loader";
 
-const ProjectCard = (projectData , detailsScreen) => {
-  const targetDate = new Date("2022/11/04");
-  const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  const { title, description } = projectData?.data;
+const ProjectCard = (projectData) => {
+  const { title, description, project_target_price,
+    project_deadline_date,
+    project_minimum_fund_price,
+    projectOwner,
+    contractAddress } = projectData?.data;
+
+     const [days, hours, minutes, seconds] = useCountdown(project_deadline_date);
   const navigate = useNavigate();
   const cardContainer = {
       width: "40rem",
@@ -49,7 +53,7 @@ const ProjectCard = (projectData , detailsScreen) => {
       <Card.Body>
         <Card.Title style={textStyle}>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
-        <p style={textStyle}>{`Time Left: ${days} days ${hours} hours ${minutes} minutes ${seconds}seconds`}</p>
+        <p style={textStyle}>{`Time Left: ${days}d : ${hours}h : ${minutes}m : ${seconds}s`}</p>
         <p style={textStyle}>Target Achieved: 
         <ProgressBar bgcolor={'hsla(0, 100%, 26%, 1)'} completed={23}/>
         </p>

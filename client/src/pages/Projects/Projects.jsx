@@ -3,31 +3,19 @@ import ProjectCard from "../../components/Cards/ProjectCard";
 import { FaDonate, FaUserShield } from "react-icons/fa";
 import { MdCampaign } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import {fetchProjectList} from '../../helper/apiRequests'
 
 export const Projects = () => {
  const navigate = useNavigate();
-  const data = [
-    {
-      title: "New Prj",
-      description: "Dummy content added for the description",
-    },
-    {
-      title: "New Prj1",
-      description: "Prj 1Dummy content added for the description",
-    },
-    {
-      title: "New Prj2",
-      description: "Prj 2 Dummy content added for the description",
-    },
-    {
-      title: "New Prj2",
-      description: "Prj 2 Dummy content added for the description",
-    },
-    {
-      title: "New Prj2",
-      description: "Prj 2 Dummy content added for the description",
-    },
-  ];
+ const[projectList,setProjectList]=useState([]);
+
+React.useEffect(() => {
+  (async()=>{
+   const data= await fetchProjectList();
+   setProjectList(data);
+  })();
+}, [])
+
   function createNewProject(){
       navigate('/Create')
   }
@@ -61,7 +49,7 @@ export const Projects = () => {
       <h1>Project</h1>
       <div className="sub">
         <h1>Bring your creative campaigns live with us</h1>
-        {data ?
+        {projectList ?
         <div className="mainpage-data">
           <div>
             <p>
@@ -97,8 +85,8 @@ export const Projects = () => {
         </div> : <NoData/>}
       </div>
       
-      {data && <div className="card-container">
-        {data.map((item) => <ProjectCard data={item} />)}
+      {projectList && <div className="card-container">
+        {projectList.map((item) => <ProjectCard data={item} />)}
       </div> }
     </div>
   );

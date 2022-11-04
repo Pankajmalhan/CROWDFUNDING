@@ -99,7 +99,7 @@ export const fetchProjectList = async() =>{
     })
     let response =await res?.json()
     if(response){
-      console.log(response, "List")
+      return response;
     }
   } catch(error){
     console.log(error, "Error while fetching Projects")

@@ -6,9 +6,9 @@ import DonateCard from "../../components/Cards/DonateCard";
 import { useLocation } from "react-router-dom";
 
 export const ProjectDetail = () => {
-  const targetDate = new Date("2022/11/04");
-  const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  const location = useLocation();
+   window.scrollTo(0,0);
+   const location = useLocation().state;
+  const [days, hours, minutes, seconds] = useCountdown(location.project_deadline_date);
   function CountDownCard({ text1, text2, target }) {
     return (
       <>
@@ -33,18 +33,16 @@ export const ProjectDetail = () => {
     <>
     <div className="container">
       <div className="detailHeader">
-        <h1 className="heading">Donation for I-Phone 14 Pro Max</h1>
+        <h1 className="heading">{location?.title}</h1>
         <div className="detailPage">
           <div className="left-detail">
             <p>
-            If you are reading this make sure to hit the donate button and help us raising fund to buy I-Phone 14 pro max.
-            If you are reading this make sure to hit the donate button and help us raising fund to buy I-Phone 14 pro max.
-            If you are reading this make sure to hit the donate button and help us raising fund to buy I-Phone 14 pro max.
+            {location.description}
             </p>
-            <Minimum text1={"Minimum contribution"} text2={"0.002 ETH"} />
+            <Minimum text1={"Minimum contribution"} text2={location?.project_minimum_fund_price} />
             <Minimum
               text1={"Wallet Address of Project Creator"}
-              text2={"0xc91bdb9441f29413c0c102b59d56364e0b94e069"}
+              text2={location?.projectOwner}
             />
             <CountDownCard text1={"Deadline Countdown"} text2={"countDown"} />
           </div>
