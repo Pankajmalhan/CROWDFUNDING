@@ -63,12 +63,13 @@ li {
   align-items: center;
 }
 .menu-link li:hover{
-  height: 10rem;
-  padding: 3rem;
+  height: 6rem;
+  padding: 2rem;
   display: flex;
-  background-color:darkgray;
+  background-color:hsla(0, 100%, 26%, 1);
   justify-content: space-around;
   align-items: center;
+  border-radius: 2rem;
 }
 .btnContainer{
   display: flex;

@@ -6,7 +6,6 @@ import DonateCard from "../../components/Cards/DonateCard";
 import { useLocation } from "react-router-dom";
 
 export const ProjectDetail = () => {
-   window.scrollTo(0,0);
    const location = useLocation().state;
   const [days, hours, minutes, seconds] = useCountdown(location.project_deadline_date);
   function CountDownCard({ text1, text2, target }) {
