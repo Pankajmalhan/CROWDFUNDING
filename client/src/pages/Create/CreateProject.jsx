@@ -4,7 +4,7 @@ import { getUserAddress } from "../../actions/Web3Actions";
 import { useForm, useWatch } from "react-hook-form";
 import { copy } from "../../helper/function";
 import { handleImageUpload } from "../../actions/web3storage";
-
+import { createNewProjectFC } from "../../helper/contractFunction";
 export const CreateProject = () => {
   const [userAddress, setUserAddress] = React.useState("");
   const {
@@ -33,9 +33,10 @@ export const CreateProject = () => {
   
   function onSubmit(e) {
     if (data) {
-      handleImageUpload().then((cid_id)=>{
+      handleImageUpload().then(async(cid_id)=>{
           const res = { ...data, ...{ publicAddress: userAddress ?? "" , cid : !!cid_id ? cid_id : ""}};
-          alert(" Project successfully Added")
+          const payload = await createNewProjectFC(res);
+          console.log(payload, "payload")
     })
     }
   }

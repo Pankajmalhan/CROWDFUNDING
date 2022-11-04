@@ -61,18 +61,18 @@ contract Project is Ownable {
         address _projectOwner
     ) {
         //Validate
-        if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
-            revert NeedToSetHigherTarget(_project_target_price, MINUMUM_TARGET_AMOUNT);
-        }
-        // if(_project_deadline_date_unix <= block.timestamp){
-        //     revert InvalidTimeInput(block.timestamp - _project_deadline_date_unix);
+        // if(_project_target_price * 1 ether <= MINUMUM_TARGET_AMOUNT){
+        //     revert NeedToSetHigherTarget(_project_target_price, MINUMUM_TARGET_AMOUNT);
         // }
-        if(_title.strlen()<=MINIMUM_CHAR_LEN || _title.strlen()>=MAX_CHAR_LEN){
-            revert InvalidCharLen(_title.strlen());
-        }
-        if(_description.strlen()<=MINIMUM_CHAR_LEN || _description.strlen()>=MAX_CHAR_LEN){
-            revert InvalidCharLen(_description.strlen());
-        }
+        // // if(_project_deadline_date_unix <= block.timestamp){
+        // //     revert InvalidTimeInput(block.timestamp - _project_deadline_date_unix);
+        // // }
+        // if(_title.strlen()<=MINIMUM_CHAR_LEN || _title.strlen()>=MAX_CHAR_LEN){
+        //     revert InvalidCharLen(_title.strlen());
+        // }
+        // if(_description.strlen()<=MINIMUM_CHAR_LEN || _description.strlen()>=MAX_CHAR_LEN){
+        //     revert InvalidCharLen(_description.strlen());
+        // }
         
         i_projectID = _projectID;
         i_target_price = _project_target_price;

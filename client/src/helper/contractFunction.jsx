@@ -1,31 +1,41 @@
 import { ethers, utils } from "ethers";
-import abi from "./contracts/ProjectFactory.json";
-
-//dummyData
-export const data = { name: "Hello" };
-
-//Common data
-export const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-// export const provider = new ethers.providers.Web3Provider(window.ethereum);
-export const contractABI = abi.abi;
-export const signer = new ethers.providers.Web3Provider(window.ethereum).getSigner();
-export const factoryContract = new ethers.Contract(
-  contractAddress,
-  contractABI,
-  signer
-);
+import abi from "../contracts/ProjectFactory.json";
+import web3 from "../web3";
 
 // createNewProject
-export const createNewProjectFC = async () => {
+export const createNewProjectFC = async (data) => {
   try {
-    console.log(provider, contractABI, signer, factoryContract, "Check for undefined")
     if (window.ethereum) {
-      const transact = await factoryContract.createNewProject(
-        utils.formatBytes32String(data.name)
+      // const contractAddress = "0x0fb80aCa322d2D792f6fc242eB6c9363eD171472";
+      const networkID = await web3.eth.net.getId();
+      const contractAddress = abi.networks[networkID].address;
+      const contractABI = abi.abi;
+      let deadline = new Date(data.deadline).getTime();
+      let minContri = Number(data.minimumContribution);
+      let target = Number(data.targetPrice);
+
+      const factoryContract = await new web3.eth.Contract(
+        contractABI,
+        contractAddress
       );
-      console.log("Creating project");
-      await transact.wait();
-      console.log("Project created", transact.hash);
+
+      const transact = await factoryContract.methods
+        .createNewProject(
+          data.title,
+          data.description,
+          target,
+          deadline,
+          minContri
+        )
+        .send({ from: data?.publicAddress });
+
+      console.log("Creating project", transact);
+      const projectListing = await factoryContract.methods
+        .getProjectLists()
+        .call();
+
+      console.log("Project created", projectListing);
+      return transact;
     } else {
       console.log("Ethereum/Metamask not found, install Metamask.");
     }
@@ -33,65 +43,18 @@ export const createNewProjectFC = async () => {
     console.log(error, "Error from CreateNewProject");
   }
 };
+export async function getProjectListingFC() {
+  if (window.ethereum) {
+    // const contractAddress = "0x0fb80aCa322d2D792f6fc242eB6c9363eD171472";
+    const networkID = await web3.eth.net.getId();
+    const contractAddress = abi.networks[networkID].address;
+    const contractABI = abi.abi;
 
-// getProjectLists
-export const getProjectListsFC = async () => {
-  try {
-    if (window.ethereum) {
-      const transact = await factoryContract.getProjectLists();
-      await transact.wait();
-    } else {
-      console.log("Ethereum/Metamask not found, install Metamask.");
-    }
-  } catch (error) {
-    console.log(error, "Error from CreateNewProject");
-  }
-};
-
-// getProjectInfoById
-export const getProjectInfoByIdFC = async (id) => {
-  try {
-    if (window.ethereum) {
-      const transact = await factoryContract.getProjectInfoById(
-        utils.formatBytes32String(id)
-      );
-      await transact.wait();
-    } else {
-      console.log("Ethereum/Metamask not found, install Metamask.");
-    }
-  } catch (error) {
-    console.log(error, "Error getProjectInfoByIdFC");
-  }
-};
-
-// getProjectInfoByAddress
-export const getProjectInfoByAddressFC = async(address)=>{
-  try{
-    if(window.ethereum){
-      const transact = await factoryContract.getProjectInfoByAddress(
-        utils.formatBytes32String(address)
-      );
-      await transact.wait();
-    }
-    else {
-      console.log("Ethereum/Metamask not found, install Metamask.")
-    }
-  }
-  catch(error){
-    console.log(error, "Error from getProjectInfoByAddressFC")
-  }
-};
-
-// getCurrentProjectID()
-export const getCurrentProjectID = async (id) => {
-  try {
-    if (window.ethereum) {
-      const transact = await factoryContract.getProjectInfoById();
-      await transact.wait();
-    } else {
-      console.log("Ethereum/Metamask not found, install Metamask.");
-    }
-  } catch (error) {
-    console.log(error, "Error getProjectInfoByIdFC");
-  }
-};
+    const factoryContract = await new web3.eth.Contract(
+      contractABI,
+      contractAddress
+    );
+    const getPrj = await factoryContract.methods.getProjectLists().call();
+    return getPrj;
+  } else return;
+}
