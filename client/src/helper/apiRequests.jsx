@@ -88,3 +88,20 @@ catch(error){
     console.log(error, "Error from HandleSignup")
 }
 };
+
+export const fetchProjectList = async() =>{
+  try{
+    let res = await fetch("http://localhost:4080/projects/getProjects",{
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+    let response =await res?.json()
+    if(response){
+      console.log(response, "List")
+    }
+  } catch(error){
+    console.log(error, "Error while fetching Projects")
+  }
+}
