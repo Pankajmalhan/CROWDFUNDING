@@ -7,7 +7,7 @@ export const Main = () =>{
         <>
         <div className= 'container'>
             <div className='sub'>
-                <h1>Bring your creative campaigns live with us</h1>
+                {/* <h1>Bring your creative campaigns live with us</h1>
                 <div className='mainpage-data'>
                     <div>
                     <mainicons><FaDonate/></mainicons>
@@ -23,7 +23,8 @@ export const Main = () =>{
                     <mainicons><FaUserShield/></mainicons>
                     <h1>Number of users<br/>20</h1>
                     </div>
-                </div>
+                </div> */}
+                {/* <ProjectDetail/> */}
                 {/* ProfileCard */}
                 {/* <ProfileCard/> */}
             </div>   

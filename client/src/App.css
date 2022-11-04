@@ -245,12 +245,21 @@ li {
   display: flex;
   justify-content:space-between;
   font-size:2rem;
-  padding: 1.5rem;
+  padding: 0.8rem;
 }
 .form-campaign input{
   display: flex;
   justify-content:flex-end;
   width: 30rem;
+}
+.form-campaign p{
+  display: flex;
+  justify-content:flex-start;
+  align-self: flex-end; 
+  width: 28rem;
+  color: red;
+  font-size: 1rem;
+  /* background-color: #1266cc; */
 }
 .form-campaign button{
   display: flex;
@@ -313,7 +322,7 @@ form{
 .mainpage-data span{
   border-right: 0.1rem solid gray;
 }
-.mainpage-data mainicons{
+.mainpage-data p{
   color:hsla(0, 100%, 26%, 1);
   font-size: 3.5rem;
   padding-right: 2rem;
@@ -404,4 +413,124 @@ form{
     color:brown;
     justify-content: center;
     padding: 1rem;
+}
+.detailHeader {
+  display: flex;
+  flex-direction: column;
+  margin: 5rem;
+  width: 100% ;
+  height: 100%;
+  background-color:hsla(0, 19%, 88%, 1);
+  border-radius: 1rem;
+}
+.heading{
+  display: flex;
+  color:hsla(0, 19%, 88%, 1);
+  padding: 2rem;
+  font-size: 5rem;
+  background-color: hsla(0, 100%, 26%, 01);
+  justify-content: center;
+}
+.detailPage{
+  display: flex;
+  flex-direction: row;
+  border-radius: 1rem;
+  
+
+}
+.left-detail{
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  width: 50%;
+  border-radius: 1rem;
+  justify-content: space-evenly;
+}
+.right-detail{
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  width: 50%;
+  justify-content: space-evenly;
+}
+.left-detail h1{
+  color: aliceblue;
+  font-size: 4rem;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+.left-detail p{
+  color: black;
+  font-size: 2rem;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+.minimumCard {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 1px 3px hsla(0, 100%, 26%, 1);
+}
+.minimumCard h1 {
+  font-size: 2rem;
+  align-items: center;
+  color: hsla(0, 100%, 26%, 1);
+  padding: 1rem;
+  padding-bottom: 0rem;
+}
+.minimumCard p{
+  font-size: 1.5rem;
+  align-items: center;
+  padding: 1rem;
+  padding-bottom: 0rem;
+}
+.donateCard{
+  display: flex;
+  flex-direction: column;
+  background: -webkit-linear-gradient(90deg, #8f0404  35%, #290101 );
+  /* background: linear-gradient( transparent, #6f0000); */
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 2rem;
+  border-style:double;
+  border-color:hsla(0, 19%, 88%, 1) ;
+  border-width: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+.donateCard h1{
+  font-size: 3rem;
+  padding: 1rem;
+  color: hsla(0, 19%, 88%, 1);
+}
+.donateCard p{
+  font-size: 2rem;
+  padding: 1rem;
+  color: hsla(0, 19%, 88%, 1);
+}
+.donateCard input{
+  display: flex;
+  width: 100%;
+  border-radius: 0.8rem;
+  font-size: 1.4rem;
+  padding: 1rem;
+  color: black;
+}
+.donateCard button{
+  display: flex;
+  height: 6rem;
+  border-radius: 0.8rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color:hsla(0, 100%, 26%, 1);
+  background-color: white;
+  font-weight: 900;
+  box-shadow: 0px 0px 0px 0.5px white;
 }
