@@ -1,21 +1,22 @@
 import Web3 from "web3";
+import { backendPort } from "../config.js";
 
 export const getNonce = async (userAddress) => {
   console.log(userAddress, "userAdd");
   try {
-    let res =await fetch(`http://localhost:4080/users/getNonce`, {
+    let res = await fetch(`http://localhost:${backendPort}/users/getNonce`, {
       body: JSON.stringify({ publicAddress: userAddress }),
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-    })
+    });
     const userObj = await res.json();
     if (!userObj?.data) {
-        registerWalletAddress(userAddress);
-      } else {
-        createSignatureRequest(userObj?.data.publicAddress, userObj?.data.nonce);
-      }
+      registerWalletAddress(userAddress);
+    } else {
+      createSignatureRequest(userObj?.data.publicAddress, userObj?.data.nonce);
+    }
     //   .then((response) => response.json())
     //   // If yes, retrieve it. If no, create it.
     //   .then((user) => {
@@ -45,63 +46,64 @@ export const createSignatureRequest = async (publicAddress, nonce) => {
   }
 };
 
-export const validateUser = async(publicAddress, signature) => {
-  try{
+export const validateUser = async (publicAddress, signature) => {
+  try {
     let res = await fetch(`http://localhost:4080/validateUser`, {
-    body: JSON.stringify({ publicAddress, signature }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  })
-  const data= await res?.json();
-  console.log(data)
-  return data
+      body: JSON.stringify({ publicAddress, signature }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+    const data = await res?.json();
+    console.log(data);
+    return data;
     // .then((response) => response.json())
     // .then((data) => {
     //   console.log(data);
     // });
-}
-catch(error){
-    console.log(error, "Error from HandleAuthenticate")
-}
+  } catch (error) {
+    console.log(error, "Error from HandleAuthenticate");
+  }
 };
 
 export const registerWalletAddress = async (publicAddress) => {
-  try{
+  try {
     let res = await fetch(`http://localhost:4080/register`, {
-    body: JSON.stringify({ publicAddress }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  })
-  const userData = await res?.json();
-  await createSignatureRequest(userData?.data?.publicAddress, userData?.data?.nonce);
+      body: JSON.stringify({ publicAddress }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+    const userData = await res?.json();
+    await createSignatureRequest(
+      userData?.data?.publicAddress,
+      userData?.data?.nonce
+    );
     // .then((response) => response.json())
     // .then((user) => {
     //   createSignatureRequest(user?.data?.publicAddress, user?.data?.nonce);
     // })
     // .catch((err) => console.log(err));
-}
-catch(error){
-    console.log(error, "Error from HandleSignup")
-}
+  } catch (error) {
+    console.log(error, "Error from HandleSignup");
+  }
 };
 
-export const fetchProjectList = async() =>{
-  try{
-    let res = await fetch("http://localhost:4080/projects/getProjects",{
+export const fetchProjectList = async () => {
+  try {
+    let res = await fetch("http://localhost:4080/projects/getProjects", {
       headers: {
         "Content-Type": "application/json",
       },
       method: "GET",
-    })
-    let response =await res?.json()
-    if(response){
+    });
+    let response = await res?.json();
+    if (response) {
       return response;
     }
-  } catch(error){
-    console.log(error, "Error while fetching Projects")
+  } catch (error) {
+    console.log(error, "Error while fetching Projects");
   }
-}
+};

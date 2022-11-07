@@ -1,14 +1,14 @@
 import { ethers, utils } from "ethers";
 import abi from "../contracts/ProjectFactory.json";
 import web3 from "../web3";
+import { factoryContractAddress } from "../config.js";
 
-// createNewProject
 export const createNewProjectFC = async (data) => {
   try {
     if (window.ethereum) {
       // const contractAddress = "0x0fb80aCa322d2D792f6fc242eB6c9363eD171472";
       const networkID = await web3.eth.net.getId();
-      const contractAddress = abi.networks[networkID].address;
+      const contractAddress = factoryContractAddress;
       const contractABI = abi.abi;
       let deadline = new Date(data.deadline).getTime();
       let minContri = Number(data.minimumContribution);
@@ -25,7 +25,8 @@ export const createNewProjectFC = async (data) => {
           data.description,
           target,
           deadline,
-          minContri
+          minContri,
+          data.cid
         )
         .send({ from: data?.publicAddress });
 
@@ -43,6 +44,7 @@ export const createNewProjectFC = async (data) => {
     console.log(error, "Error from CreateNewProject");
   }
 };
+
 export async function getProjectListingFC() {
   if (window.ethereum) {
     // const contractAddress = "0x0fb80aCa322d2D792f6fc242eB6c9363eD171472";

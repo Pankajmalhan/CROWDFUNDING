@@ -3,12 +3,8 @@ import Image from "../../Assets/img/eth.png";
 import { getUserAddress } from "../../actions/Web3Actions";
 import { useForm, useWatch } from "react-hook-form";
 import { copy } from "../../helper/function";
-import { fetchProjectList } from "../../helper/apiRequests";
-
-import ABI from "../../contracts/ProjectFactory.json";
-import { ethers, utils } from "ethers";
+// import { fetchProjectList } from "../../helper/apiRequests";
 import { useContext } from "react";
-import Web3 from "web3";
 import { WalletContext } from "../../web3context/walletContext";
 
 import { handleImageUpload } from "../../actions/web3storage";
@@ -50,6 +46,7 @@ export const CreateProject = () => {
           ...{ publicAddress: userAddress ?? "", cid: !!cid_id ? cid_id : "" },
         };
         const payload = await createNewProjectFC(res);
+        console.log(res);
         if (payload) {
           let projectData = payload?.events.ProjectStarted.returnValues;
           let requiredData = {
@@ -68,28 +65,6 @@ export const CreateProject = () => {
       });
     }
   }
-  // const submitToBlockchain = async (e) => {
-  //   // e.preventDefault();
-  //   const factoryContractAddress = "0x224b4beFf9d3Eb0e2A241e1ba631f007eC0f6d86";
-  //   const abi = ABI.abi;
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const wallet_signer = provider.getSigner(wallet);
-
-  //   if (data) {
-  //     const res = { ...data, ...{ publicAddress: userAddress ?? "" } };
-  //     console.log(res, "data");
-  //   }
-
-  //   const factoryContract = new ethers.Contract(
-  //     factoryContractAddress,
-  //     abi,
-  //     wallet_signer
-  //   );
-
-  //   let tx = await factoryContract.createNewProject("Title", "Desc", 100, 0, 1);
-  //   console.log(tx);
-  //   console.log(await tx.wait(3));
-  // };
 
   return (
     <div className="container">
