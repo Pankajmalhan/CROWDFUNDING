@@ -11,7 +11,8 @@ export const Projects = () => {
 
 React.useEffect(() => {
   (async()=>{
-   const data= await fetchProjectList();
+  //  const data= await fetchProjectList();
+    let data =  JSON.parse(localStorage.getItem("projList"))
    setProjectList(data);
   })();
 }, [])

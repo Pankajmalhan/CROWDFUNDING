@@ -4,9 +4,9 @@ const API_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjow
 
 export async function handleImageUpload() {
     try{
-    const client = new Web3Storage({ token: API_TOKEN });
     const fileInput = document.querySelector('input[type="file"]');
-
+    if(fileInput.files.length){
+    const client = new Web3Storage({ token: API_TOKEN });
     const rootCid = await client.put(fileInput.files);
 
     const info = await client.status(rootCid);
@@ -18,6 +18,8 @@ export async function handleImageUpload() {
       console.log(`${file.cid} ${file.name} ${file.size}`);
       return `${file.cid}`
     }
+  }
+  else return
   }
   catch (error) {
     console.log(error , "Error")

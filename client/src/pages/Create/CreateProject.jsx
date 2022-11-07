@@ -3,7 +3,7 @@ import Image from "../../Assets/img/eth.png";
 import { getUserAddress } from "../../actions/Web3Actions";
 import { useForm, useWatch } from "react-hook-form";
 import { copy } from "../../helper/function";
-import {fetchProjectList} from '../../helper/apiRequests'
+import { fetchProjectList } from "../../helper/apiRequests";
 
 import ABI from "../../contracts/ProjectFactory.json";
 import { ethers, utils } from "ethers";
@@ -31,8 +31,8 @@ export const CreateProject = () => {
   });
   const data = useWatch({ control });
   const mindate = new Date().toLocaleDateString();
-  
-    React.useEffect(() => {
+
+  React.useEffect(() => {
     setAddress();
   }, [userAddress]);
 
@@ -41,19 +41,33 @@ export const CreateProject = () => {
     setUserAddress(address);
     return address;
   }
-  
   function onSubmit(e) {
     if (data) {
-      handleImageUpload().then(async(cid_id)=>{
-          const res = { ...data, ...{ publicAddress: userAddress ?? "" , cid : !!cid_id ? cid_id : ""}};
-          const payload = await createNewProjectFC(res);
-          console.log(payload, "payload")
-    })
+      handleImageUpload().then(async (cid_id) => {
+        var projectList = JSON.parse(localStorage.getItem("projList"));
+        const res = {
+          ...data,
+          ...{ publicAddress: userAddress ?? "", cid: !!cid_id ? cid_id : "" },
+        };
+        const payload = await createNewProjectFC(res);
+        if (payload) {
+          let projectData = payload?.events.ProjectStarted.returnValues;
+          let requiredData = {
+            title: projectData._title,
+            description: projectData._description,
+            project_target_price: projectData._project_target_price,
+            project_deadline_date: projectData._projest_deadline_date_unix,
+            project_minimum_fund_price: projectData._project_minimum_fund_price,
+            projectOwner: projectData._projectOwner,
+            contractAddress: projectData._contractAddress,
+          };
+          if (projectList == null) projectList = [];
+          projectList.push(requiredData);
+          localStorage.setItem("projList", JSON.stringify(projectList));
+        }
+      });
     }
   }
-
-  
-
   // const submitToBlockchain = async (e) => {
   //   // e.preventDefault();
   //   const factoryContractAddress = "0x224b4beFf9d3Eb0e2A241e1ba631f007eC0f6d86";
