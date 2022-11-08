@@ -8,6 +8,7 @@ export const createNewProjectFC = async (data) => {
     if (window.ethereum) {
       // const contractAddress = "0x0fb80aCa322d2D792f6fc242eB6c9363eD171472";
       const networkID = await web3.eth.net.getId();
+      console.log(networkID);
       const contractAddress = factoryContractAddress;
       const contractABI = abi.abi;
       let deadline = new Date(data.deadline).getTime();

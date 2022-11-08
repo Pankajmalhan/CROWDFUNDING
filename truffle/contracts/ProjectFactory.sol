@@ -118,4 +118,12 @@ contract ProjectFactory is Ownable {
         uint16 id = uint16(_contractId.current());
         return id;
     }
+
+    function sendFundsbyAddress(address payable _address)
+        public payable
+        returns(uint256)
+    {
+        Project sendFund = Project(_address);
+        return sendFund.fund{value:msg.value}(msg.sender);
+    }
 }

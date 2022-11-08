@@ -95,16 +95,18 @@ contract Project is Ownable {
     }
 
     //Functions
-    function fund() public payable {
+    function fund(address sender) public payable returns(uint256) {
         if (msg.value <= i_minimum_fund_price_in_eth) {
             revert SpendMoreEth();
         }
         if (s_projectState != State.AWAITING_FUNDING) {
             revert NotInAwaitingFunding();
         }
-        project_funders.push(msg.sender);
-        addressToAmount[msg.sender] = msg.value;
+
+        project_funders.push(sender);
+        addressToAmount[sender] = msg.value;
         s_totalFundingAmount += msg.value;
+        return (s_totalFundingAmount); 
     }
 
     function markFundingComplete() public onlyOwner {
@@ -140,13 +142,13 @@ contract Project is Ownable {
     }
 
     //if someone sends this contract ETH without calling the fund function
-    fallback() external payable {
-        fund();
-    }
+    // fallback() external payable {
+    //     fund();
+    // }
 
-    receive() external payable {
-        fund();
-    }
+    // receive() external payable {
+    //     fund();
+    // }
 
     // View Functions
     function getProjectDetails()
